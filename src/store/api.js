@@ -4,8 +4,8 @@ export const api = axios.create({
   baseURL: "https://conduit.productionready.io/api"
 });
 
-export function setToken(jwt) {
-  api.defaults.headers.common["Authorization"] = jwt;
+export function setToken(token) {
+  api.defaults.headers.common["Authorization"] = `Token ${token}`;
 }
 
 export function clearToken() {
