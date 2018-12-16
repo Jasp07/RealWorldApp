@@ -42,6 +42,26 @@ export default {
         console.error(e);
         throw e;
       }
+    },
+    registerUser: async function(context, payload) {
+      clearToken();
+      try {
+        const response = await api.post("users", {
+          user: {
+            username: payload.username,
+            email: payload.email,
+            password: payload.password
+          }
+        });
+        if (response.data.user) {
+          setToken(response.data.user.token);
+          context.commit("setUser", response.data.user);
+          Router.push("/");
+        }
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
     }
   }
 };

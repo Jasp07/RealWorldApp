@@ -12,20 +12,35 @@
         </p>
 
         <ul class="error-messages">
-          <li>That email is already taken</li>
+          <li v-for="error in errors" :key="error">{{error.message}}</li>
         </ul>
 
         <form>
           <fieldset class="form-group">
-            <input class="form-control form-control-lg" type="text" placeholder="Your Name">
+            <input 
+              v-model="username" 
+              class="form-control form-control-lg" 
+              type="text" 
+              placeholder="Your Name"
+            />
           </fieldset>
           <fieldset class="form-group">
-            <input v-model="email" class="form-control form-control-lg" type="text" placeholder="Email">
+            <input 
+              v-model="email" 
+              class="form-control form-control-lg" 
+              type="text" 
+              placeholder="Email"
+            />
           </fieldset>
           <fieldset class="form-group">
-            <input v-model="password" class="form-control form-control-lg" type="password" placeholder="Password">
+            <input 
+              v-model="password" 
+              class="form-control form-control-lg" 
+              type="password" 
+              placeholder="Password"
+            />
           </fieldset>
-          <button class="btn btn-lg btn-primary pull-xs-right">
+          <button @click="register" class="btn btn-lg btn-primary pull-xs-right">
             Sign up
           </button>
         </form>
@@ -35,3 +50,30 @@
   </div>
 </div>
 </template>
+<script>
+export default {
+  data: function() {
+    return {
+      username: "",
+      email: "",
+      password: ""
+    };
+  },
+  methods: {
+    register() {
+      this.$store
+        .dispatch("users/registerUser", {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+        .then(() => {
+          this.errors = [];
+        })
+        .catch(err => {
+          this.errors.push(err);
+        });
+    }
+  }
+};
+</script>

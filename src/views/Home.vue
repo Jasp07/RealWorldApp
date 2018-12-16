@@ -90,9 +90,6 @@ export default {
         this.activeFeed = "user";
         this.$store.dispatch("articles/getUserFeed");
       }
-    },
-    articles() {
-      return this.$store.dispatch("articles/getGlobalFeed");
     }
   }
 };

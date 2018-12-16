@@ -11,9 +11,11 @@
             </button>
           </div>
           <a href="" class="preview-link">
-            <h1>{{ article.title }}</h1>
-            <p>{{ article.description }}</p>
-            <span>Read more...</span>
+            <router-link class="nav-link" :to="`/artcile/@${article.slug}`">
+              <h1>{{ article.title }}</h1>
+              <p>{{ article.description }}</p>
+              <span>Read more...</span>
+            </router-link>
           </a>
         </div>
 </template>
@@ -21,6 +23,11 @@
 import moment from "moment";
 export default {
   props: ["article"],
+  computed: {
+    username() {
+      return this.$store.getters["users/username"];
+    }
+  },
   methods: {
     formatDate(dateString) {
       return moment(dateString).format("MMMM Do, YYYY");
