@@ -18,12 +18,12 @@ export default {
         const {
           tag = null,
           author = null,
-          favourited = null,
+          favorited = null,
           page = 1
         } = payload;
         route += tag ? `?tag=${tag}&` : "";
         route += author ? `?author=${author}&` : "";
-        route += favourited ? `?favourited=${favourited}&` : "";
+        route += favorited ? `?favorited=${favorited}&` : "";
         route += page ? `?offset=${(page - 1) * 10}&limit=10` : "";
       }
       const response = await api.get(route);
@@ -33,6 +33,16 @@ export default {
       let route = "/articles/feed";
       if (payload) {
         const { page = 1 } = payload;
+        route += page ? `?offset=${(page - 1) * 10}&limit=10` : "";
+      }
+      const response = await api.get(route);
+      commit("setArticles", response.data);
+    },
+    async getSelfFeed({ commit }, payload = { page: 1 }) {
+      let route = "/articles";
+      if (payload) {
+        const { author = null, page = 1 } = payload;
+        route += author ? `?author=${author}&` : "";
         route += page ? `?offset=${(page - 1) * 10}&limit=10` : "";
       }
       const response = await api.get(route);

@@ -6,15 +6,15 @@
       <div class="row">
 
         <div class="col-xs-12 col-md-10 offset-md-1">
-          <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
-          <h4>Eric Simons</h4>
+          <img src="null" class="user-img" />
+          <h4>Jaspreet Singh</h4>
           <p>
-            Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games
+            No bio
           </p>
           <button class="btn btn-sm btn-outline-secondary action-btn">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons 
+            Follow Jaspreet
           </button>
         </div>
 
@@ -60,3 +60,44 @@
 
 </div>
 </template>
+<script>
+import ArticlePreview from "@/components/ArticlePreview.vue";
+
+export default {
+  name: "Profile",
+  components: {
+    ArticlePreview
+  },
+  created() {
+    this.setFeed("myarticles");
+  },
+  data: function() {
+    return {
+      activeFeed: ""
+    };
+  },
+  computed: {
+    globalArticles() {
+      return this.$store.state.articles.feed || [];
+    },
+    username() {
+      return this.$store.getters["users/username"];
+    }
+  },
+  methods: {
+    setFeed(feedType) {
+      if (feedType === "myarticles") {
+        this.activeFeed = "myarticles";
+        this.$store.dispatch("articles/getGlobalFeed", {
+          author: this.username
+        });
+      } else if (feedType === "favorited") {
+        this.activeFeed = "favorited";
+        this.$store.dispatch("articles/getGlobalFeed", {
+          favorited: this.username
+        });
+      }
+    }
+  }
+};
+</script>

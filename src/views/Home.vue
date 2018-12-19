@@ -73,6 +73,11 @@ export default {
   created() {
     this.setFeed("global");
   },
+  data: function() {
+    return {
+      activeFeed: ""
+    };
+  },
   computed: {
     globalArticles() {
       return this.$store.state.articles.feed || [];

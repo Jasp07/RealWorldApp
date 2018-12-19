@@ -9,11 +9,14 @@ export default {
   getters: {
     username: function(state) {
       return (state.user && state.user.username) || null;
+    },
+    profile: function(state) {
+      return state.profile || null;
     }
   },
   mutations: {
     setUser(state, payload) {
-      state.user = payload;
+      state.user = payload.user;
     },
     setProfile(state, payload) {
       state.profile = payload;
@@ -21,8 +24,8 @@ export default {
   },
   actions: {
     getUser: async function({ commit }) {
-      const user = await api.get("/user");
-      commit("setUser", user);
+      const response = await api.get("/user");
+      commit("setUser", response.data);
     },
     loginUser: async function(context, payload) {
       clearToken();
@@ -35,7 +38,7 @@ export default {
         });
         if (response.data.user) {
           setToken(response.data.user.token);
-          context.commit("setUser", response.data.user);
+          context.commit("setUser", response.data);
           Router.push("/");
         }
       } catch (e) {
@@ -55,7 +58,7 @@ export default {
         });
         if (response.data.user) {
           setToken(response.data.user.token);
-          context.commit("setUser", response.data.user);
+          context.commit("setUser", response.data);
           Router.push("/");
         }
       } catch (e) {
@@ -63,5 +66,14 @@ export default {
         throw e;
       }
     }
+    // setProfile: async function(context, payload) {
+    //   let route = "/profiles";
+    //   if (payload) {
+    //     const { username = null } = payload;
+    //     route += username ? `?username=${username}` : "";
+    //   }
+    //   const response = await api.get(route);
+    //   context.commit("setProfile", response.data);
+    // }
   }
 };
