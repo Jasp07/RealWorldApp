@@ -9,7 +9,6 @@ export default {
   },
   getters: {
     getArticle: function(state) {
-      console.log("getter called" + state.article);
       return state.article;
     }
   },
@@ -19,7 +18,6 @@ export default {
       state.count = articlesCount;
     },
     setArticle(state, payload) {
-      console.log("in mutation" + payload.article);
       state.article = payload.article;
     }
   },
@@ -61,16 +59,12 @@ export default {
       commit("setArticles", response.data);
     },
     getArticle: async function({ commit }, payload) {
-      console.log("slug:" + payload.slug);
       let route = "/articles/";
       route += payload.slug;
       const response = await api.get(route);
-      console.log(response);
       commit("setArticle", response.data);
     },
     deleteArticle: async function(context) {
-      console.log("in delete" + context.state.article);
-      console.log(context.state.user);
       if (context.state.user == undefined) {
         Router.push("/");
       }
@@ -80,7 +74,6 @@ export default {
         route += slug;
         const response = await api.delete(route);
         context.commit("setArticle", response.data);
-        console.log(response);
         Router.push("/");
       } catch (e) {
         console.error(e);
@@ -88,7 +81,6 @@ export default {
       }
     },
     postArticle: async function(context, payload) {
-      console.log("again in post article for api hit");
       try {
         if (payload.type == "create") {
           const response = await api.post("articles", {
@@ -99,7 +91,6 @@ export default {
               tagList: payload.tagList
             }
           });
-          console.log(response.data);
           Router.push({
             name: "Article",
             params: { slug: response.data.article.slug }
@@ -116,7 +107,6 @@ export default {
               tagList: payload.tagList
             }
           });
-          console.log(response.data);
           if (response.data) {
             Router.push({
               name: "Article",

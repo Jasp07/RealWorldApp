@@ -81,8 +81,7 @@ export default {
     },
     user() {
       return this.$store.getters["users/user"];
-    },
-
+    }
   },
   methods: {
     setFeed(feedType) {

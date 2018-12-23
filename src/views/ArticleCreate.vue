@@ -36,56 +36,60 @@
 </div>
 </template>
 <script>
-import api from '../store/api'
-import { error } from 'util';
+import api from "../store/api";
+import { error } from "util";
 export default {
-    data: function() {
+  data: function() {
     return {
       errors: [],
       title: "",
       body: "",
       description: "",
       tags: "",
-      tagList: [],
+      tagList: []
     };
   },
-  methods:{
+  methods: {
     postArticle() {
-      console.log('in post article');
-      this.$store.dispatch("articles/postArticle",{
-        title: this.title,
-        body: this.body,
-        description: this.description,
-        tagList: this.tags.split(" "),
-        type: "create",
-      }).then(() => {
+      console.log("in post article");
+      this.$store
+        .dispatch("articles/postArticle", {
+          title: this.title,
+          body: this.body,
+          description: this.description,
+          tagList: this.tags.split(" "),
+          type: "create"
+        })
+        .then(() => {
           this.errors = [];
         })
         .catch(err => {
-          if(err.response.status == 401)
-            this.errors.push("Only Signed in or Signed up user can create articles. Please Sign in");
+          if (err.response.status == 401)
+            this.errors.push(
+              "Only Signed in or Signed up user can create articles. Please Sign in"
+            );
         });
     },
     validateForm() {
-      console.log('in validate form');
-      if(this.title == "" || this.body == "" || this.description == ""){
-        if(this.errors.length == 0)
-          this.errors.push("Please enter all the mandatory fields title, body and description");
+      console.log("in validate form");
+      if (this.title == "" || this.body == "" || this.description == "") {
+        if (this.errors.length == 0)
+          this.errors.push(
+            "Please enter all the mandatory fields title, body and description"
+          );
         return;
-      }
-      else{
+      } else {
         this.errors = [];
         this.postArticle();
         return;
-      } 
+      }
     }
   }
-}
+};
 </script>
 <style scoped>
-.error-p b, .error-p b ul li {
+.error-p b,
+.error-p b ul li {
   color: red;
 }
 </style>
-
-

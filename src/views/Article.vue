@@ -128,10 +128,10 @@
 </template>
 <script>
 import moment from "moment";
-import Router from '../router';
+import Router from "../router";
 import Comment from "@/components/Comment.vue";
 export default {
-  name: 'Article',
+  name: "Article",
   props: ["slug"],
   components: {
     Comment
@@ -140,7 +140,7 @@ export default {
     return {
       errors: [],
       body: ""
-    }
+    };
   },
   beforeMount() {
     this.getArticle();
@@ -162,15 +162,15 @@ export default {
   },
   methods: {
     getArticle() {
-      this.$store
-        .dispatch("articles/getArticle", { slug : this.slug } );
+      this.$store.dispatch("articles/getArticle", { slug: this.slug });
     },
     formatDate(dateString) {
       return moment(dateString).format("MMMM Do, YYYY");
     },
-    deleteArticle() {    
-        this.$store
-        .dispatch("articles/deleteArticle") .then(() => {
+    deleteArticle() {
+      this.$store
+        .dispatch("articles/deleteArticle")
+        .then(() => {
           Router.push("/");
         })
         .catch(err => {
@@ -178,19 +178,22 @@ export default {
         });
     },
     fetchComments() {
-      try{
+      try {
         this.errors = [];
-        this.$store.dispatch("comments/getComments", { slug : this.slug });
-      }catch(e){
+        this.$store.dispatch("comments/getComments", { slug: this.slug });
+      } catch (e) {
         errors.push("Error file fetching the comments");
       }
     },
     postComment() {
-      console.log('in post comment');
-      try{
+      console.log("in post comment");
+      try {
         this.errors = [];
-        this.$store.dispatch("comments/postComment", { slug : this.slug, body : this.body });
-      }catch(e){
+        this.$store.dispatch("comments/postComment", {
+          slug: this.slug,
+          body: this.body
+        });
+      } catch (e) {
         errors.push("Error while posting comment over article");
       }
     }

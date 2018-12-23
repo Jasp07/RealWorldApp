@@ -37,7 +37,7 @@
 </template>
 <script>
 export default {
-  name: 'EditorEdit',
+  name: "EditorEdit",
   props: ["slug"],
   data: function() {
     return {
@@ -46,7 +46,7 @@ export default {
       body: "",
       description: "",
       tags: "",
-      tagList: [],
+      tagList: []
     };
   },
   beforeMount() {
@@ -67,40 +67,45 @@ export default {
       return this.$store.getters["articles/getArticle"];
     },
     editArticle() {
-      console.log('in edit article');
-      this.$store.dispatch("articles/postArticle",{
-        title: this.title,
-        body: this.body,
-        description: this.description,
-        tagList: this.tags.split(" "),
-        type: "update",
-      }).then(() => {
+      console.log("in edit article");
+      this.$store
+        .dispatch("articles/postArticle", {
+          title: this.title,
+          body: this.body,
+          description: this.description,
+          tagList: this.tags.split(" "),
+          type: "update"
+        })
+        .then(() => {
           this.errors = [];
         })
         .catch(err => {
-          if(err.response.status == 401)
-            this.errors.push("Only Signed in or Signed up user can update articles. Please Sign in");
+          if (err.response.status == 401)
+            this.errors.push(
+              "Only Signed in or Signed up user can update articles. Please Sign in"
+            );
         });
     },
     validateForm() {
-      console.log('in validate form');
-      if(this.title == "" || this.body == "" || this.description == ""){
-        if(this.errors.length == 0)
-          this.errors.push("Please enter all the mandatory fields title, body and description");
+      console.log("in validate form");
+      if (this.title == "" || this.body == "" || this.description == "") {
+        if (this.errors.length == 0)
+          this.errors.push(
+            "Please enter all the mandatory fields title, body and description"
+          );
         return;
-      }
-      else{
+      } else {
         this.errors = [];
         this.editArticle();
         return;
-      } 
+      }
     }
   }
-}
+};
 </script>
 <style scoped>
-.error-p b , .error-p ul li {
+.error-p b,
+.error-p ul li {
   color: red;
 }
 </style>
-
