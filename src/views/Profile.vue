@@ -6,15 +6,15 @@
       <div class="row">
 
         <div class="col-xs-12 col-md-10 offset-md-1">
-          <img src="null" class="user-img" />
-          <h4>Jaspreet Singh</h4>
+          <img :src="user.image" class="user-img" />
+          <h4>{{ user.username }}</h4>
           <p>
-            No bio
+            {{ user.bio }}
           </p>
           <button class="btn btn-sm btn-outline-secondary action-btn">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Jaspreet
+            Follow {{ user.username }}
           </button>
         </div>
 
@@ -62,7 +62,6 @@
 </template>
 <script>
 import ArticlePreview from "@/components/ArticlePreview.vue";
-
 export default {
   name: "Profile",
   components: {
@@ -80,21 +79,22 @@ export default {
     globalArticles() {
       return this.$store.state.articles.feed || [];
     },
-    username() {
-      return this.$store.getters["users/username"];
-    }
+    user() {
+      return this.$store.getters["users/user"];
+    },
+
   },
   methods: {
     setFeed(feedType) {
       if (feedType === "myarticles") {
         this.activeFeed = "myarticles";
         this.$store.dispatch("articles/getGlobalFeed", {
-          author: this.username
+          author: this.user.username
         });
       } else if (feedType === "favorited") {
         this.activeFeed = "favorited";
         this.$store.dispatch("articles/getGlobalFeed", {
-          favorited: this.username
+          favorited: this.user.username
         });
       }
     }

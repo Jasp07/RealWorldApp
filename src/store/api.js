@@ -6,8 +6,10 @@ export const api = axios.create({
 
 export function setToken(token) {
   api.defaults.headers.common["Authorization"] = `Token ${token}`;
+  localStorage.setItem("token", `${token}`);
 }
 
 export function clearToken() {
   delete api.defaults.headers.common["Authorization"];
+  localStorage.removeItem("token");
 }

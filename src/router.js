@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Article from "./views/Article.vue";
 
 Vue.use(Router);
 
@@ -32,14 +33,15 @@ export default new Router({
       component: () => import("@/views/ArticleCreate.vue")
     },
     {
-      path: "/editor/:article-slug",
-      name: "editor_edit",
+      path: "/editor/:slug",
+      name: "EditorEdit",
       component: () => import("@/views/ArticleEdit.vue")
     },
     {
-      path: "/article/:articleSlug",
-      name: "article",
-      component: () => import("@/views/Article.vue")
+      path: "/article/:slug",
+      name: "Article",
+      component: Article,
+      props: true
     },
     {
       path: "/:username",

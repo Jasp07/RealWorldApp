@@ -3,23 +3,19 @@ import Router from "../../router";
 export default {
   namespaced: true,
   state: {
-    user: null,
-    profile: null
+    user: null
   },
   getters: {
     username: function(state) {
       return (state.user && state.user.username) || null;
     },
-    profile: function(state) {
-      return state.profile || null;
+    user: function(state) {
+      return state.user || null;
     }
   },
   mutations: {
     setUser(state, payload) {
-      state.user = payload.user;
-    },
-    setProfile(state, payload) {
-      state.profile = payload;
+      state.user = payload;
     }
   },
   actions: {
@@ -38,7 +34,7 @@ export default {
         });
         if (response.data.user) {
           setToken(response.data.user.token);
-          context.commit("setUser", response.data);
+          context.commit("setUser", response.data.user);
           Router.push("/");
         }
       } catch (e) {
@@ -58,7 +54,7 @@ export default {
         });
         if (response.data.user) {
           setToken(response.data.user.token);
-          context.commit("setUser", response.data);
+          context.commit("setUser", response.data.user);
           Router.push("/");
         }
       } catch (e) {
@@ -66,14 +62,5 @@ export default {
         throw e;
       }
     }
-    // setProfile: async function(context, payload) {
-    //   let route = "/profiles";
-    //   if (payload) {
-    //     const { username = null } = payload;
-    //     route += username ? `?username=${username}` : "";
-    //   }
-    //   const response = await api.get(route);
-    //   context.commit("setProfile", response.data);
-    // }
   }
 };
